@@ -288,8 +288,8 @@ struct nchan_loc_conf_s { //nchan_loc_conf_t
   
   ngx_int_t                       longpoll_multimsg;
   ngx_int_t                       longpoll_multimsg_use_raw_stream_separator;
-  
-  ngx_str_t                       eventsource_event;
+
+  ngx_http_complex_value_t        *eventsource_event;
   
   time_t                          websocket_ping_interval;
   
