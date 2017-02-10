@@ -230,8 +230,12 @@ static ngx_int_t es_respond_message(subscriber_t *sub,  nchan_msg_t *msg) {
   prepend_es_response_line(fsub, &id_line, &first_link, &msgid);
   
   //and maybe the event type?
-  if(sub->cf->eventsource_event.len > 0) {
-    prepend_es_response_line(fsub, &event_line, &first_link, &sub->cf->eventsource_event);
+  if(sub->cf->eventsource_event != NULL) {
+    ngx_str_t *eventsource_event = NULL;
+
+    if( ngx_http_complex_value(fsub->sub.request, sub->cf->eventsource_event, eventsource_event) == NGX_OK && eventsource_event->len > 0 ) {
+      prepend_es_response_line(fsub, &event_line, &first_link, eventsource_event);
+    }
   }
   else if(msg->eventsource_event) {
     prepend_es_response_line(fsub, &event_line, &first_link, msg->eventsource_event);

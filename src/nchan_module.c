@@ -769,7 +769,7 @@ static void nchan_publisher_post_request(ngx_http_request_t *r, ngx_str_t *conte
   ngx_buf_t                      *buf;
   struct timeval                  tv;
   nchan_msg_t                    *msg;
-  ngx_str_t                      *eventsource_event;
+  ngx_str_t                      *eventsource_event = NULL;
   
   safe_request_ptr_t             *pd;
 
@@ -782,10 +782,9 @@ static void nchan_publisher_post_request(ngx_http_request_t *r, ngx_str_t *conte
     return; 
   }
   msg->shared = 0;
-  
-  
-  if(cf->eventsource_event.len > 0) {
-    msg->eventsource_event = &cf->eventsource_event;
+
+  if(cf->eventsource_event != NULL && ngx_http_complex_value(r, cf->eventsource_event, eventsource_event) == NGX_OK && eventsource_event->len > 0) {
+    msg->eventsource_event = eventsource_event;
   }
   else if((eventsource_event = nchan_get_header_value(r, NCHAN_HEADER_EVENTSOURCE_EVENT)) != NULL) {
     msg->eventsource_event = eventsource_event;

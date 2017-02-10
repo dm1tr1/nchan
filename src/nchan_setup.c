@@ -262,7 +262,7 @@ static char * nchan_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child) {
   
   ngx_conf_merge_str_value(conf->channel_id_split_delimiter, prev->channel_id_split_delimiter, "");
   MERGE_CONF(conf, prev, allow_origin);
-  //ngx_conf_merge_str_value(conf->eventsource_event, prev->eventsource_event, "");
+  MERGE_CONF(conf, prev, eventsource_event);
   ngx_conf_merge_str_value(conf->custom_msgtag_header, prev->custom_msgtag_header, "");
   ngx_conf_merge_value(conf->msg_in_etag_only, prev->msg_in_etag_only, 0);
   ngx_conf_merge_value(conf->longpoll_multimsg, prev->longpoll_multimsg, 0);
@@ -290,7 +290,6 @@ static char * nchan_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child) {
   MERGE_CONF(conf, prev, unsubscribe_request_url);
   MERGE_CONF(conf, prev, subscribe_request_url);
   MERGE_CONF(conf, prev, channel_group);
-  MERGE_CONF(conf, prev, eventsource_event);
   
   MERGE_CONF(conf, prev, group.max_channels);
   MERGE_CONF(conf, prev, group.max_subscribers);
